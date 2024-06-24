@@ -1,5 +1,5 @@
 import {useCardAnimation} from '@react-navigation/stack';
-import React from 'react';
+import React, {useMemo} from 'react';
 import {Animated, View} from 'react-native';
 import PressableWithoutFeedback from '@components/Pressable/PressableWithoutFeedback';
 import useLocalize from '@hooks/useLocalize';
@@ -19,13 +19,15 @@ type BaseOverlayProps = {
 
 function BaseOverlay({shouldUseNativeStyles, onPress, isModalOnTheLeft = false}: BaseOverlayProps) {
     const styles = useThemeStyles();
-    const {current} = useCardAnimation();
+    const {current, index} = useCardAnimation();
     const {translate} = useLocalize();
+
+    const hasNextInStack = useMemo(() => index > 0, [index]);
 
     return (
         <Animated.View
             id="BaseOverlay"
-            style={shouldUseNativeStyles ? styles.nativeOverlayStyles(current) : styles.overlayStyles(current, isModalOnTheLeft)}
+            style={[shouldUseNativeStyles ? styles.nativeOverlayStyles(current) : styles.overlayStyles(current, isModalOnTheLeft, hasNextInStack)]}
         >
             <View style={[styles.flex1, styles.flexColumn]}>
                 {/* In the latest Electron version buttons can't be both clickable and draggable.
