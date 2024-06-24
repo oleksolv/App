@@ -1894,7 +1894,7 @@ const styles = (theme: ThemeColors) =>
             marginBottom: -16,
         },
 
-        overlayStyles: (current: OverlayStylesParams, isModalOnTheLeft: boolean) =>
+        overlayStyles: (current: OverlayStylesParams, isModalOnTheLeft: boolean, hasNextInStack?: boolean) =>
             ({
                 ...positioning.pFixed,
                 // We need to stretch the overlay to cover the sidebar and the translate animation distance.
@@ -1903,7 +1903,7 @@ const styles = (theme: ThemeColors) =>
                 bottom: 0,
                 right: isModalOnTheLeft ? -2 * variables.sideBarWidth : 0,
                 backgroundColor: theme.overlay,
-                opacity: current.progress.interpolate({
+                opacity: hasNextInStack ? 0 : current.progress.interpolate({
                     inputRange: [0, 1],
                     outputRange: [0, variables.overlayOpacity],
                     extrapolate: 'clamp',
